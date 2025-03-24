@@ -1,11 +1,13 @@
 import { getOrders } from "@/api/get-orders";
 import { Pagination } from "@/components/pagination";
+import { PaginationSkeleton } from "@/components/pagination-skeleton";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router";
 import { z } from "zod";
 import { OrderTableFilters, type filterOrderStatusEnum } from "./order-table-filters";
 import { OrderTableRow } from "./order-table-row";
+import { OrderTableSkeleton } from "./order-table-skeleton";
 
 export function Orders() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -18,7 +20,7 @@ export function Orders() {
   const customerName = searchParams.get('customerName');
   const status = searchParams.get('status') as typeof filterOrderStatusEnum.options[number];
 
-  const { data: result, } = useQuery({
+  const { data: result, isLoading: isLoadingOrders } = useQuery({
     queryKey: ['orders', pageIndex, orderId, customerName, status],
     queryFn: () => getOrders({ pageIndex, orderId, customerName, status }),
   })
@@ -57,6 +59,7 @@ export function Orders() {
               </TableHeader>
 
               <TableBody>
+                {isLoadingOrders && <OrderTableSkeleton />}
                 {result && result.orders.map(order => {
                   return <OrderTableRow key={order.orderId} order={order} />
                 })}
@@ -64,15 +67,15 @@ export function Orders() {
             </Table>
           </div>
 
-          {
-            result && (
-              <Pagination
-                currentPage={result.meta.pageIndex}
-                totalItems={result.meta.totalCount}
-                pageSize={result.meta.perPage}
-                onPageChange={handlePageChange}
-              />
-            )
+          {isLoadingOrders && <PaginationSkeleton />}
+          {result && (
+            <Pagination
+              currentPage={result.meta.pageIndex}
+              totalItems={result.meta.totalCount}
+              pageSize={result.meta.perPage}
+              onPageChange={handlePageChange}
+            />
+          )
           }
         </div>
       </div>

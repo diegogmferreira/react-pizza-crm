@@ -2,10 +2,11 @@ import { getMonthCanceledOrdersAmount } from "@/api/get-moth-canceled-orders-amo
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { CircleOff } from "lucide-react";
+import { MetricCardSkeleton } from "./metric-card-skeleton";
 
 export function MonthCanceledOrdersAmountCard() {
   const { data: monthCanceledOrdersAmount } = useQuery({
-    queryKey: ['metrics', 'month-orders-amount'],
+    queryKey: ['metrics', 'month-canceled-orders-amount'],
     queryFn: getMonthCanceledOrdersAmount,
   })
 
@@ -18,9 +19,9 @@ export function MonthCanceledOrdersAmountCard() {
 
       <CardContent className="space-y-1">
         {
-          monthCanceledOrdersAmount && (
+          monthCanceledOrdersAmount ? (
             <>
-              <span className="text-2xl font-bold tracking-tight"> 55</span>
+              <span className="text-2xl font-bold tracking-tight"> {monthCanceledOrdersAmount.amount}</span>
               <p className="text-xs text-muted-foreground">
                 {
                   monthCanceledOrdersAmount.diffFromLastMonth < 0
@@ -31,14 +32,16 @@ export function MonthCanceledOrdersAmountCard() {
                     )
                     : (
                       <>
-                        <span className="text-destructive font-semibold">-{monthCanceledOrdersAmount.diffFromLastMonth}%</span> em relação ao mês anterior
+                        <span className="text-destructive font-semibold">+{monthCanceledOrdersAmount.diffFromLastMonth}%</span> em relação ao mês anterior
                       </>
                     )
                 }
               </p>
             </>
           )
-        }
+          : (
+            <MetricCardSkeleton />
+          )}
       </CardContent>
     </Card>
   )

@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { OrderDetailsSkeleton } from "./order-details-skeleton";
 
 interface OrderDetailsProps {
   orderId: string;
@@ -12,7 +13,7 @@ interface OrderDetailsProps {
 }
 
 export function OrderDetails({ orderId, isOpen }: OrderDetailsProps) {
-  const { data: orderDetails } = useQuery({
+  const { data: orderDetails, isLoading: isLoadingOrderDetails } = useQuery({
     queryKey: ['order-details', orderId],
     queryFn: () => getOrderDetails({ orderId }),
     enabled: isOpen,
@@ -24,7 +25,8 @@ export function OrderDetails({ orderId, isOpen }: OrderDetailsProps) {
         <DialogTitle>Pedido: {orderId}</DialogTitle>
         <DialogDescription>Detalhes do pedido</DialogDescription>
       </DialogHeader>
-
+      
+      {isLoadingOrderDetails && <OrderDetailsSkeleton />}
       {orderDetails && (
         <div className="space-y-6">
           <Table>
@@ -82,10 +84,10 @@ export function OrderDetails({ orderId, isOpen }: OrderDetailsProps) {
                   <TableCell>{item.product.name}</TableCell>
                   <TableCell className="text-right">{item.quantity}</TableCell>
                   <TableCell className="text-right">
-                    {(item.priceInCents /100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    {(item.priceInCents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                   </TableCell>
                   <TableCell className="text-right">
-                    {(item.priceInCents * item.quantity /100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    {(item.priceInCents * item.quantity / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                   </TableCell>
                 </TableRow>
               ))}
