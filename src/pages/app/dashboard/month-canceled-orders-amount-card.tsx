@@ -1,4 +1,4 @@
-import { getMonthCanceledOrdersAmount } from "@/api/get-moth-canceled-orders-amount";
+import { getMonthCanceledOrdersAmount } from "@/api/get-month-canceled-orders-amount";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { CircleOff } from "lucide-react";

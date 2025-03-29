@@ -19,6 +19,8 @@ export function PopularProductsChart() {
     queryFn: getPopularProducts,
   })
 
+  console.log({ popularProducts })
+
   return (
     <Card className="col-span-3">
       <CardHeader className="pb-8">

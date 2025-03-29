@@ -10,7 +10,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { ArrowRight, Check, ListChecks, Milestone, Search, X } from "lucide-react";
+import { Check, ListChecks, Milestone, Search, X } from "lucide-react";
 import { useState } from "react";
 import { OrderDetails } from "./order-details";
 

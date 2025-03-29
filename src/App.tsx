@@ -8,7 +8,6 @@ import { router } from "./routes";
 export function App() {
   return (
     <>
-
       <ThemeProvider storageKey="pizzashop-theme">
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />

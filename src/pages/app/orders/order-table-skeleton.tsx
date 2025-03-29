@@ -1,16 +1,11 @@
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { Search } from "lucide-react";
 
 export function OrderTableSkeleton() {
   return Array.from({ length: 10 }).map((_, index) => (
     <TableRow key={index}>
       <TableCell>
-        <Button variant="outline" size="sm" disabled>
-          <Search className="h-3 w-3" />
-          <span className="sr-only">Detalhes do pedido</span>
-        </Button>
+        <Skeleton className="h-8 w-8" />
       </TableCell>
 
       <TableCell className="font-mono text-xs font-medium">
